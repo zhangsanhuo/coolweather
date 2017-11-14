@@ -1,6 +1,7 @@
 package com.coolweather.android;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -78,8 +79,8 @@ public class ChooseAreaFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view =LayoutInflater.from(getContext()).inflate(R.layout.choose_area,container,false);
-        //View view = inflater.inflate(R.layout.choose_area,container,false);
+        //View view =LayoutInflater.from(getContext()).inflate(R.layout.choose_area,container,false);
+        View view = inflater.inflate(R.layout.choose_area,container,false);
 
         titleText = (TextView)view.findViewById(R.id.title_text);
         backButton = (Button) view.findViewById(R.id.back_button);
@@ -109,6 +110,19 @@ public class ChooseAreaFragment extends Fragment {
                     selectedCity = cityList.get(positon);
 
                     queryCounties();
+                }
+                //从省市县列表跳到天气界面
+                else if (currentLevel ==LEVEL_COUNTY){
+
+                    String weatherId= countyList.get(positon).getWeatherId();
+
+                    Intent intent = new Intent(getActivity(),WeatherActivity.class);
+
+                    intent.putExtra("weather_id",weatherId);
+
+                    startActivity(intent);
+
+                    getActivity().finish();
                 }
             }
         });
